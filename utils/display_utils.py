@@ -6,6 +6,7 @@ def format_currency(value):
     """Formatea un número como moneda colombiana."""
     return '{:,}'.format(value).replace(',', '.')
 
+
 def clean_text_for_search(text):
     """
     Estandariza un texto para búsqueda:
