@@ -1,0 +1,42 @@
+[
+    {
+        "id_loteria": 1,
+        "nombre_loteria": "Loteria del Cauca",
+        "fracciones_por_billete": 3,
+        "valor_por_fraccion": 5000,
+        "cantidad_inventario_inicial_por_fracciones": 90,
+        "cantidad_billetes_iniciales": 30,
+        "valor_total_inventario_inicial": 450000,
+        "valor_por_billete_iniciales": 15000
+    },
+    {
+        "id_loteria": 2,
+        "nombre_loteria": "Loteria del Valle",
+        "fracciones_por_billete": 4,
+        "valor_por_fraccion": 3000,
+        "cantidad_inventario_inicial_por_fracciones": 100,
+        "cantidad_billetes_iniciales": 25,
+        "valor_total_inventario_inicial": 300000,
+        "valor_por_billete_iniciales": 12000
+    },
+    {
+        "id_loteria": 3,
+        "nombre_loteria": "Lotería de Medellín",
+        "fracciones_por_billete": 4,
+        "valor_por_fraccion": 4000,
+        "cantidad_inventario_inicial_por_fracciones": 50,
+        "cantidad_billetes_iniciales": 12,
+        "valor_total_inventario_inicial": 200000,
+        "valor_por_billete_iniciales": 16000
+    },
+    {
+        "id_loteria": 4,
+        "nombre_loteria": "Loteria de Rizaralda",
+        "fracciones_por_billete": 8,
+        "valor_por_fraccion": 3000,
+        "cantidad_inventario_inicial_por_fracciones": 60,
+        "cantidad_billetes_iniciales": 7,
+        "valor_total_inventario_inicial": 180000,
+        "valor_por_billete_iniciales": 24000
+    }
+]
