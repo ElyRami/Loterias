@@ -1,12 +1,13 @@
 # main.py
 from views import menu_view
+from data.db_postgreSQL import get_connection, close_connection
 from services import loteria_service, ventas_service
 
 def main():
     """Función principal que ejecuta el menú de la aplicación."""
     while True:
         opcion = menu_view.show_main_menu()
-
+        
         if opcion == "1":
             loterias = loteria_service.get_all_loterias()
             menu_view.show_loterias_list(loterias)
@@ -88,4 +89,14 @@ def main():
             print("Opción no válida. Por favor intente de nuevo.")
 
 if __name__ == "__main__":
+    print("🚀 Iniciando aplicación con PostgreSQL en la nube...")
+
+    connection = get_connection()
+    if connection:
+        print("Conexión exitosa a la base de datos")
+        # Cerramos de inmediato ya que la app no usa la conexión más adelante
+        close_connection(connection)
+    else:
+        print("Error al conectar a la base de datos")
+    
     main()
