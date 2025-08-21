@@ -1,6 +1,6 @@
 # main.py
 from views import menu_view
-from services import loteria_service
+from services import loteria_service, ventas_service
 
 def main():
     """Función principal que ejecuta el menú de la aplicación."""
@@ -48,6 +48,40 @@ def main():
             menu_view.display_search_result(loteria_encontrada)
 
         elif opcion == "5":
+            # Menú de ventas
+            while True:
+                opcion_ventas = menu_view.show_ventas_menu()
+                
+                if opcion_ventas == "1":
+                    # Registrar nueva venta
+                    try:
+                        id_loteria, cantidad_fracciones, nombre_cliente, nombre_vendedor = menu_view.get_venta_data()
+                        nueva_venta = ventas_service.add_new_venta(id_loteria, cantidad_fracciones, nombre_cliente, nombre_vendedor)
+                        print("\n¡Venta registrada exitosamente!")
+                        menu_view.display_venta_info(nueva_venta)
+                    except Exception as e:
+                        print(f"Error al registrar la venta: {e}")
+                
+                elif opcion_ventas == "2":
+                    # Ver todas las ventas
+                    menu_view.display_all_ventas()
+                
+                elif opcion_ventas == "3":
+                    # Ver ventas por lotería
+                    menu_view.display_ventas_por_loteria()
+                
+                elif opcion_ventas == "4":
+                    # Ver total de ventas
+                    menu_view.display_total_ventas()
+                
+                elif opcion_ventas == "5":
+                    # Volver al menú principal
+                    break
+                
+                else:
+                    print("Opción no válida. Por favor intente de nuevo.")
+
+        elif opcion == "6":
             menu_view.exit_message()
             break
         else:

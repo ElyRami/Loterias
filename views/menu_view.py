@@ -1,6 +1,6 @@
 # views/menu_view.py
 import sys
-from services import loteria_service
+from services import loteria_service, ventas_service
 from utils.display_utils import format_currency
 
 def show_main_menu():
@@ -10,8 +10,9 @@ def show_main_menu():
     print("2. Agregar nueva lotería")
     print("3. Ver todas las loterías")
     print("4. Buscar Lotería")
-    print("5. Salir")
-    return input("\nSeleccione una opción (1-5): ")
+    print("5. Registrar ventas")
+    print("6. Salir")
+    return input("\nSeleccione una opción (1-6): ")
 
 def show_loterias_list(loterias):
     """Muestra una lista numerada de loterías."""
@@ -98,6 +99,100 @@ def display_search_result(loteria):
         display_loteria_info(loteria)
     else:
         print("Lotería no encontrada.")
+
+def show_ventas_menu():
+    """Muestra el menú de ventas y obtiene la opción del usuario."""
+    print("\n=== Menú de Ventas ===")
+    print("1. Registrar nueva venta")
+    print("2. Ver todas las ventas")
+    print("3. Ver ventas por lotería")
+    print("4. Ver total de ventas")
+    print("5. Volver al menú principal")
+    return input("\nSeleccione una opción (1-5): ")
+
+def get_venta_data():
+    """Solicita los datos para una nueva venta."""
+    print("\n=== Registrar Nueva Venta ===")
+    
+    # Mostrar loterías disponibles
+    loterias = loteria_service.get_all_loterias()
+    print("\nLoterías disponibles:")
+    for i, loteria in enumerate(loterias):
+        print(f"{i + 1}. {loteria.nombre_loteria} - Valor por fracción: {format_currency(loteria.valor_por_fraccion)}")
+    
+    # Seleccionar lotería
+    while True:
+        try:
+            indice = int(input("\nIngrese el número de la lotería: ")) - 1
+            if 0 <= indice < len(loterias):
+                loteria_seleccionada = loterias[indice]
+                break
+            else:
+                print("Por favor ingrese un número válido de lotería")
+        except ValueError:
+            print("Por favor ingrese un número válido")
+    
+    # Obtener cantidad de fracciones
+    cantidad_fracciones = get_numeric_input("Ingrese la cantidad de fracciones vendidas: ")
+    
+    # Obtener datos del cliente y vendedor
+    nombre_cliente = input("Ingrese el nombre del cliente: ")
+    nombre_vendedor = input("Ingrese el nombre del vendedor: ")
+    
+    return loteria_seleccionada.id_loteria, cantidad_fracciones, nombre_cliente, nombre_vendedor
+
+def display_venta_info(venta):
+    """Muestra la información de una venta."""
+    print(f"\nID Venta: {venta.id_venta}")
+    print(f"ID Lotería: {venta.id_loteria}")
+    print(f"Fracciones vendidas: {venta.cantidad_fracciones_vendidas}")
+    print(f"Cliente: {venta.nombre_cliente}")
+    print(f"Vendedor: {venta.nombre_vendedor}")
+    print(f"Fecha: {venta.fecha_venta}")
+    print(f"Valor total: {format_currency(venta.valor_venta)}")
+
+def display_all_ventas():
+    """Muestra todas las ventas registradas."""
+    ventas = ventas_service.get_all_ventas()
+    if not ventas:
+        print("\nNo hay ventas registradas.")
+        return
+    
+    print("\n=== Todas las Ventas ===")
+    for venta in ventas:
+        print("\n" + "-"*50)
+        display_venta_info(venta)
+    print("\n" + "-"*50)
+    input("\nPresione Enter para continuar...")
+
+def display_ventas_por_loteria():
+    """Muestra las ventas agrupadas por lotería."""
+    ventas_por_loteria = ventas_service.calculate_ventas_por_loteria()
+    loterias = loteria_service.get_all_loterias()
+    
+    if not ventas_por_loteria:
+        print("\nNo hay ventas registradas.")
+        return
+    
+    print("\n=== Ventas por Lotería ===")
+    for id_loteria, total_ventas in ventas_por_loteria.items():
+        # Buscar el nombre de la lotería
+        nombre_loteria = "Lotería desconocida"
+        for loteria in loterias:
+            if loteria.id_loteria == id_loteria:
+                nombre_loteria = loteria.nombre_loteria
+                break
+        
+        print(f"\n{nombre_loteria} (ID: {id_loteria}): {format_currency(total_ventas)}")
+    
+    input("\nPresione Enter para continuar...")
+
+def display_total_ventas():
+    """Muestra el total de todas las ventas."""
+    total = ventas_service.calculate_total_ventas()
+    print(f"\n=== Total de Ventas ===")
+    print(f"Total general: {format_currency(total)}")
+    input("\nPresione Enter para continuar...")
 
 def exit_message():
     """Muestra un mensaje de salida."""

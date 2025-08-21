@@ -1,0 +1,20 @@
+[
+    {
+        "id_venta": 1,
+        "id_loteria": 1,
+        "cantidad_fracciones_vendidas": 1,
+        "nombre_cliente": "Juan Perez",
+        "nombre_vendedor": "Juan Perez",
+        "fecha_venta": "2025-01-01",
+        "valor_venta": 5000
+    },
+    {
+        "id_venta": 2,
+        "id_loteria": 2,
+        "cantidad_fracciones_vendidas": 2,
+        "nombre_cliente": "Cristian",
+        "nombre_vendedor": "Elizabeth",
+        "fecha_venta": "2025-08-20",
+        "valor_venta": 6000
+    }
+]
