@@ -1,7 +1,8 @@
 # main.py
 from views import menu_view
-from data.db_postgreSQL import get_connection, close_connection
+from models.loteria_model import Loteria
 from services import loteria_service, ventas_service
+from data.db_postgreSQL import get_connection, close_connection
 
 def main():
     """Función principal que ejecuta el menú de la aplicación."""

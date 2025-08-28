@@ -1,2 +1,3 @@
 # DB_URI = "postgresql://postgres:x4F8*N8xJHs*x99@db.gqmaqpclbndyrymzlega.supabase.co:5432/postgres?sslmode=require&connect_timeout=10"
-DB_URI = "postgresql://postgres.gqmaqpclbndyrymzlega:x4F8*N8xJHs*x99@aws-1-ca-central-1.pooler.supabase.com:6543/postgres?connect_timeout=10"
+# DB_URI = "postgresql://postgres.gqmaqpclbndyrymzlega:x4F8*N8xJHs*x99@aws-1-ca-central-1.pooler.supabase.com:6543/postgres?connect_timeout=10"
+DB_URI = "postgresql://postgres.gqmaqpclbndyrymzlega:x4F8*N8xJHs*x99@aws-1-ca-central-1.pooler.supabase.com:6543/postgres?connect_timeout=20"
