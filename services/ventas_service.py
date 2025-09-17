@@ -117,3 +117,5 @@ def calculate_ventas_por_loteria():
 
 # Cargar ventas al importar el módulo
 _load_ventas()
+
+# Lineas nuevas para revisar el control de versiones git
