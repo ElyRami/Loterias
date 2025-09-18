@@ -25,7 +25,7 @@ def crear_tabla_loterias():
     finally:
         conn.close()
         print("Conexión cerrada exitosamente")
-        
+
 def insertar_loteria(loteria):
     conn = get_connection()
     if conn:

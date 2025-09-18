@@ -107,8 +107,9 @@ def show_ventas_menu():
     print("2. Ver todas las ventas")
     print("3. Ver ventas por lotería")
     print("4. Ver total de ventas")
-    print("5. Volver al menú principal")
-    return input("\nSeleccione una opción (1-5): ")
+    print("5. Eliminar venta")
+    print("6. Volver al menú principal")
+    return input("\nSeleccione una opción (1-6): ")
 
 def get_venta_data():
     """Solicita los datos para una nueva venta."""
@@ -193,6 +194,33 @@ def display_total_ventas():
     print(f"\n=== Total de Ventas ===")
     print(f"Total general: {format_currency(total)}")
     input("\nPresione Enter para continuar...")
+    
+def display_eliminar_venta():
+    """Lista las ventas disponibles para eliminar."""
+    ventas = ventas_service.get_all_ventas()
+    
+    print("\n=== Ventas Disponibles para Eliminar ===")
+    print("-"*50)
+    for venta in ventas:
+        print(f"ID Venta: {venta.id_venta}")
+        print(f"ID Lotería: {venta.id_loteria}")
+        print(f"Fracciones vendidas: {venta.cantidad_fracciones_vendidas}")
+        print(f"Cliente: {venta.nombre_cliente}")
+        print(f"Vendedor: {venta.nombre_vendedor}")
+        print(f"Fecha: {venta.fecha_venta}")
+        print(f"Valor: {format_currency(venta.valor_venta)}")
+        print("-"*50)
+    
+    input("\nPresione Enter para continuar...")
+    
+    while True:
+        try:
+            id_venta = int(input("Ingrese el ID de la venta a eliminar: "))
+            ventas_service.eliminar_venta_id(id_venta)
+            print("Venta eliminada exitosamente")
+            break
+        except Exception as e:
+            print(f"Error al eliminar la venta: {e}")
 
 def exit_message():
     """Muestra un mensaje de salida."""

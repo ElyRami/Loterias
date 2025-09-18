@@ -6,7 +6,7 @@
         "nombre_cliente": "Juan Perez",
         "nombre_vendedor": "Juan Perez",
         "fecha_venta": "2025-01-01",
-        "valor_venta": 5000
+        "valor_venta": 100
     },
     {
         "id_venta": 2,
@@ -15,6 +15,15 @@
         "nombre_cliente": "Cristian",
         "nombre_vendedor": "Elizabeth",
         "fecha_venta": "2025-08-20",
-        "valor_venta": 6000
+        "valor_venta": 4000
+    },
+    {
+        "id_venta": 3,
+        "id_loteria": 1,
+        "cantidad_fracciones_vendidas": 2,
+        "nombre_cliente": "Elizabeth",
+        "nombre_vendedor": "Cristian",
+        "fecha_venta": "2025-09-17",
+        "valor_venta": 200
     }
 ]

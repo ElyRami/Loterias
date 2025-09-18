@@ -3,47 +3,65 @@ import json
 from datetime import datetime
 from models.venta_model import Ventas
 from services.loteria_service import get_all_loterias
+from models.ventas import insertar_venta, obtener_ventas, eliminar_venta
 
 ventas_list = []
 VENTAS_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'ventas.json')
 
+# def _load_ventas():
+#     """Carga las ventas desde el archivo JSON."""
+#     global ventas_list
+#     if os.path.exists(VENTAS_FILE):
+#         try:
+#             with open(VENTAS_FILE, 'r', encoding='utf-8') as f:
+#                 data = json.load(f)
+#                 for item in data:
+#                     # Convertir la fecha de string a datetime si es necesario
+#                     fecha_venta = item['fecha_venta']
+#                     if isinstance(fecha_venta, str):
+#                         try:
+#                             fecha_venta = datetime.strptime(fecha_venta, "%Y-%m-%d")
+#                         except ValueError:
+#                             fecha_venta = datetime.now()
+                    
+#                     venta = Ventas(
+#                         id_venta=item['id_venta'],
+#                         id_loteria=item['id_loteria'],
+#                         cantidad_fracciones_vendidas=item['cantidad_fracciones_vendidas'],
+#                         nombre_cliente=item['nombre_cliente'],
+#                         nombre_vendedor=item['nombre_vendedor'],
+#                         fecha_venta=fecha_venta,
+#                         valor_venta=item['valor_venta']
+#                     )
+#                     ventas_list.append(venta)
+                
+#                 print(f"Ventas cargadas desde {VENTAS_FILE}")
+#         except json.JSONDecodeError:
+#             print(f"Error al decodificar JSON en {VENTAS_FILE}. Inicializando lista vacía.")
+#             ventas_list = []
+#         except Exception as e:
+#             print(f"Ocurrió un error al cargar ventas: {e}. Inicializando lista vacía.")
+#             ventas_list = []
+#     else:
+#         print(f"Archivo {VENTAS_FILE} no encontrado. Inicializando lista vacía.")
+#         ventas_list = []
+
 def _load_ventas():
     """Carga las ventas desde el archivo JSON."""
     global ventas_list
-    if os.path.exists(VENTAS_FILE):
-        try:
-            with open(VENTAS_FILE, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                for item in data:
-                    # Convertir la fecha de string a datetime si es necesario
-                    fecha_venta = item['fecha_venta']
-                    if isinstance(fecha_venta, str):
-                        try:
-                            fecha_venta = datetime.strptime(fecha_venta, "%Y-%m-%d")
-                        except ValueError:
-                            fecha_venta = datetime.now()
-                    
-                    venta = Ventas(
-                        id_venta=item['id_venta'],
-                        id_loteria=item['id_loteria'],
-                        cantidad_fracciones_vendidas=item['cantidad_fracciones_vendidas'],
-                        nombre_cliente=item['nombre_cliente'],
-                        nombre_vendedor=item['nombre_vendedor'],
-                        fecha_venta=fecha_venta,
-                        valor_venta=item['valor_venta']
-                    )
-                    ventas_list.append(venta)
-                
-                print(f"Ventas cargadas desde {VENTAS_FILE}")
-        except json.JSONDecodeError:
-            print(f"Error al decodificar JSON en {VENTAS_FILE}. Inicializando lista vacía.")
-            ventas_list = []
-        except Exception as e:
-            print(f"Ocurrió un error al cargar ventas: {e}. Inicializando lista vacía.")
-            ventas_list = []
-    else:
-        print(f"Archivo {VENTAS_FILE} no encontrado. Inicializando lista vacía.")
-        ventas_list = []
+    rows = obtener_ventas()
+    for row in rows:
+        venta = Ventas(
+            id_venta=row[0],
+            id_loteria=row[1],
+            cantidad_fracciones_vendidas=row[2],
+            nombre_cliente=row[3],
+            nombre_vendedor=row[4],
+            fecha_venta=row[5],
+            valor_venta=row[6]
+        )
+        ventas_list.append(venta)
+    print(f"Ventas cargadas desde la BD")
 
 def _save_ventas():
     """Guarda las ventas actuales en el archivo JSON."""
@@ -90,8 +108,9 @@ def add_new_venta(id_loteria, cantidad_fracciones_vendidas, nombre_cliente, nomb
         valor_venta=0  # Se calculará automáticamente
     )
     
+    insertar_venta(nueva_venta)
     ventas_list.append(nueva_venta)
-    _save_ventas()
+    # _save_ventas()
     return nueva_venta
 
 def get_ventas_by_date_range(fecha_inicio, fecha_fin):
@@ -114,6 +133,15 @@ def calculate_ventas_por_loteria():
             ventas_por_loteria[venta.id_loteria] = 0
         ventas_por_loteria[venta.id_loteria] += venta.valor_venta
     return ventas_por_loteria
+
+def eliminar_venta_id(id_venta):
+    """Elimina una venta por su ID."""
+    for venta in ventas_list:
+        if venta.id_venta == id_venta:
+            ventas_list.remove(venta)
+            eliminar_venta(id_venta)
+            return True
+    return False
 
 # Cargar ventas al importar el módulo
 _load_ventas()

@@ -77,6 +77,10 @@ def main():
                     menu_view.display_total_ventas()
                 
                 elif opcion_ventas == "5":
+                    # Eliminar venta
+                    menu_view.display_eliminar_venta()
+                
+                elif opcion_ventas == "6":
                     # Volver al menú principal
                     break
                 
@@ -99,5 +103,4 @@ if __name__ == "__main__":
         close_connection(connection)
     else:
         print("Error al conectar a la base de datos")
-    
     main()
